@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>漢字に似た文字検索アプリ</title>
+    <script src="dictionary.js" type="module"></script>
+    <script src="moji.js" type="module"></script>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <input type="text" id="search" placeholder="漢字を入力してください">
+    <button onclick="searchCharacter()">検索</button>
+    <p id="result"></p>
+
+    <script type="module">
+        import dictionary from './dictionary.js';
+
+        // カスタム文字のパスデータの定義
+        const customCharacters = {
+            "火": "M150 100 L250 100 M200 100 L200 300 M150 300 L250 300 M150 200 L250 200", // 「出」に似た形状
+            "矢": "M200 100 L200 300 M150 200 L250 200 M175 150 L225 150", // 「木」に似た形状
+            "口": "M100 100 L300 100 L300 300 L100 300 Z", // 「四角」形状
+            "乙": "M200 100 Q250 150 150 200 T200 300", // 「乙」に似た形状
+            "水": "M200 100 L200 300 M150 200 L250"
+            // 他の文字のパスデータもここに追加可能
+        };
+
+        function drawCharacter(pathData) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+
+            // パスデータを解析して文字を描画
+            const path = new Path2D(pathData);
+            ctx.stroke(path);
+        }
+
+        function searchCharacter() {
+            const input = document.getElementById('search').value;
+            const resultElement = document.getElementById('result');
+            const result = dictionary.find(entry => entry.kanji === input);
+
+            if (result) {
+                resultElement.textContent = `架空言語の文字: ${result.fakeLanguage} (意味: ${result.fakeLanguageMeaning})`;
+                
+                // 辞書で見つかった架空言語の文字に対応するパスデータを描画
+                const pathData = customCharacters[result.fakeLanguage];
+                if (pathData) {
+                    drawCharacter(pathData);
+                } else {
+                    drawCharacter(customCharacters["口"]); // デフォルトの四角形
+                }
+            } else {
+                resultElement.textContent = '見つかりませんでした。';
+            }
+        }
+
+        window.searchCharacter = searchCharacter;
+    </script>
+</body>
+</html>
