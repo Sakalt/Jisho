@@ -88,5 +88,25 @@ export default [
         kanji: "点",
         fakeLanguage: "点",
         fakeLanguageMeaning: "点を模した形状",
-    }
+    },
+    {
+        kanji: "花",
+        fakeLanguage: "花",
+        fakeLanguageMeaning: "花を模した形状",
+    },
+    {
+        kanji: "雲",
+        fakeLanguage: "雲",
+        fakeLanguageMeaning: "雲",
+    },
+    {
+        kanji: "星座",
+        fakeLanguage: "星座",
+        fakeLanguageMeaning: "星座",
+    },
+    {
+        kanji: "太陽",
+        fakeLanguage: "太陽",
+        fakeLanguageMeaning: "太陽",
+    }  
 ];
